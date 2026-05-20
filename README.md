@@ -1,5 +1,5 @@
 <div align="center">
-  <h1>Pema Wangchuk — Creative Developer Portfolio</h1>
+  <h1>Pema Wangchuk — Self-taught Developer Portfolio</h1>
 
   <p>
     A premium, 2026-ready portfolio featuring a WebGL-inspired 3D background, smooth scroll animations, glassmorphism UI, and custom magnetic cursor.
@@ -43,17 +43,20 @@ Ensure you have Node.js and npm (or pnpm/yarn) installed on your system.
 ### Installation
 
 1. Clone the repository:
+
    ```bash
    git clone https://github.com/pemawangchuk2023/pwportfolio.git
    cd pwportfolio
    ```
 
 2. Install dependencies:
+
    ```bash
    npm install
    ```
 
 3. Run the development server:
+
    ```bash
    npm run dev
    ```
