@@ -35,10 +35,14 @@ export function ProjectsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
+              whileHover={{ y: -8 }}
               className="group relative cursor-pointer"
               onClick={() => setSelectedProject(project.id)}
             >
-              <div className="glass overflow-hidden rounded-2xl aspect-[4/3] relative">
+              {/* Glowing Card Shadow */}
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-tr from-primary/30 to-yellow-500/10 opacity-0 blur-lg transition-all duration-500 group-hover:opacity-100" />
+              
+              <div className="glass overflow-hidden rounded-2xl aspect-[4/3] relative z-10 border border-border/40 group-hover:border-primary/40 transition-all duration-300">
                 <Image
                   src={project.image}
                   alt={project.title}
@@ -55,7 +59,7 @@ export function ProjectsSection() {
                     {project.tags.slice(0, 3).map((tag) => (
                       <span
                         key={tag}
-                        className="text-xs bg-primary/20 text-primary px-2 py-1 rounded border border-primary/20 backdrop-blur-md"
+                        className="text-xs bg-primary/20 text-primary px-2.5 py-1 rounded border border-primary/25 backdrop-blur-md font-medium"
                       >
                         {tag}
                       </span>
@@ -63,8 +67,8 @@ export function ProjectsSection() {
                   </div>
                 </div>
 
-                <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md p-2 rounded-full opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0">
-                  <ArrowUpRight size={20} className="text-foreground" />
+                <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md p-2.5 rounded-full opacity-0 -translate-x-2 transition-all duration-300 group-hover:opacity-100 group-hover:translate-x-0 border border-border/40">
+                  <ArrowUpRight size={18} className="text-primary animate-pulse" />
                 </div>
               </div>
             </motion.div>
@@ -79,7 +83,7 @@ export function ProjectsSection() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex items-center justify-center bg-background/95 backdrop-blur-xl p-4 md:p-8"
+            className="fixed inset-0 z-50 flex items-center justify-center bg-background/90 backdrop-blur-xl p-4 md:p-8"
             onClick={() => setSelectedProject(null)}
           >
             <motion.div
@@ -87,14 +91,15 @@ export function ProjectsSection() {
               animate={{ y: 0, scale: 1 }}
               exit={{ y: 20, scale: 0.95 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="glass relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl flex flex-col md:flex-row"
+              className="glass relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl flex flex-col md:flex-row border border-border/60"
               onClick={(e) => e.stopPropagation()}
             >
               <button
-                className="absolute top-4 right-4 z-10 bg-background/50 hover:bg-background backdrop-blur p-2 rounded-full transition-colors"
+                className="absolute top-4 right-4 z-10 bg-background/80 hover:bg-primary hover:text-primary-foreground backdrop-blur p-2.5 rounded-full transition-all border border-border/50"
                 onClick={() => setSelectedProject(null)}
+                aria-label="Close modal"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
 
               {(() => {
@@ -103,7 +108,7 @@ export function ProjectsSection() {
 
                 return (
                   <>
-                    <div className="relative w-full md:w-1/2 aspect-video md:aspect-auto h-64 md:h-auto border-b md:border-b-0 md:border-r border-border/50">
+                    <div className="relative w-full md:w-1/2 aspect-video md:aspect-auto h-64 md:h-auto border-b md:border-b-0 md:border-r border-border/50 bg-secondary/20">
                       <Image
                         src={project.image}
                         alt={project.title}
@@ -112,22 +117,22 @@ export function ProjectsSection() {
                       />
                     </div>
                     <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center">
-                      <h3 className="font-heading text-3xl font-bold mb-4">
+                      <h3 className="font-heading text-3xl font-bold mb-4 text-gradient-primary">
                         {project.title}
                       </h3>
-                      <p className="text-muted-foreground leading-relaxed mb-6">
+                      <p className="text-muted-foreground leading-relaxed mb-6 text-sm md:text-base">
                         {project.description}
                       </p>
 
                       <div className="mb-8">
-                        <h4 className="text-sm font-semibold uppercase tracking-wider text-primary mb-3">
-                          Technologies
+                        <h4 className="text-xs font-semibold uppercase tracking-wider text-primary mb-3">
+                          Technologies Used
                         </h4>
                         <div className="flex flex-wrap gap-2">
                           {project.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="text-sm bg-secondary px-3 py-1 rounded-full border border-border"
+                              className="text-xs bg-secondary/80 px-3 py-1.5 rounded-full border border-border/50 text-foreground font-medium"
                             >
                               {tag}
                             </span>
@@ -140,7 +145,7 @@ export function ProjectsSection() {
                           href={project.link}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex-1 text-center bg-primary text-primary-foreground py-3 rounded-lg font-medium transition-transform hover:scale-105"
+                          className="flex-1 text-center bg-primary text-primary-foreground py-3 rounded-xl font-medium transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/20 hover:scale-[1.02] text-sm"
                         >
                           Visit Live
                         </a>
@@ -148,7 +153,7 @@ export function ProjectsSection() {
                           href={project.github}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex-1 text-center bg-secondary text-secondary-foreground py-3 rounded-lg font-medium border border-border transition-transform hover:scale-105"
+                          className="flex-1 text-center bg-secondary/80 text-secondary-foreground py-3 rounded-xl font-medium border border-border transition-all hover:bg-secondary hover:scale-[1.02] text-sm"
                         >
                           Source Code
                         </a>

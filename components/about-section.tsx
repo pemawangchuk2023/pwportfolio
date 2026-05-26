@@ -86,7 +86,7 @@ export function AboutSection() {
               </p>
 
               {/* Stats */}
-              <div className="grid grid-cols-2 gap-6 sm:grid-cols-3">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                 {personalInfo.stats.map((stat, index) => (
                   <motion.div
                     key={index}
@@ -94,12 +94,13 @@ export function AboutSection() {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="flex flex-col"
+                    whileHover={{ y: -4, scale: 1.02 }}
+                    className="glass flex flex-col p-4 rounded-xl border border-border/40 hover:border-primary/30 transition-all cursor-default"
                   >
-                    <span className="font-heading text-4xl font-bold text-foreground">
+                    <span className="font-heading text-3xl font-extrabold text-gradient-primary">
                       {stat.value}+
                     </span>
-                    <span className="mt-1 text-sm text-muted-foreground">
+                    <span className="mt-1.5 text-xs text-muted-foreground font-medium uppercase tracking-wider">
                       {stat.label}
                     </span>
                   </motion.div>

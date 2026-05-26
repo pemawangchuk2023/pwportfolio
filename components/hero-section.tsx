@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { Points, PointMaterial } from "@react-three/drei";
-import * as random from "math/random/dist/mappers";
 import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { personalInfo } from "@/lib/data";
@@ -24,7 +23,7 @@ const generatePoints = () => {
 };
 
 function ParticleField(props: any) {
-  const ref = useRef<any>();
+  const ref = useRef<any>(null);
   // Pre-calculate random points inside a sphere
   const sphere = generatePoints();
 
@@ -73,12 +72,19 @@ export function HeroSection() {
 
       {/* Content */}
       <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 text-center">
+        {/* Subtle decorative glowing background circle */}
+        <div className="absolute w-[350px] md:w-[600px] h-[350px] md:h-[600px] bg-primary/5 blur-[120px] rounded-full -z-10 pointer-events-none" />
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 2.8 }} // Delay for preloader
-          className="mb-4 inline-block rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-sm text-primary"
+          className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4.5 py-1.5 text-xs md:text-sm text-primary backdrop-blur-md"
         >
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+          </span>
           Available for new opportunities
         </motion.div>
 
@@ -86,16 +92,16 @@ export function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 3 }}
-          className="font-heading text-5xl font-bold tracking-tighter md:text-7xl lg:text-8xl"
+          className="font-heading text-5xl font-bold tracking-tighter md:text-7xl lg:text-8xl text-gradient"
         >
-          Hi, I&apos;m <span className="text-primary">{personalInfo.name}</span>
+          Hi, I&apos;m <span className="text-gradient-primary">{personalInfo.name}</span>
         </motion.h1>
 
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 3.2 }}
-          className="mt-6 max-w-2xl text-lg text-muted-foreground md:text-xl lg:text-2xl"
+          className="mt-6 max-w-3xl text-lg text-muted-foreground md:text-xl lg:text-2xl font-light leading-relaxed"
         >
           {personalInfo.title}
         </motion.h2>
@@ -104,14 +110,16 @@ export function HeroSection() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 3.5 }}
-          className="mt-10 flex gap-4"
+          className="mt-12 flex gap-4"
         >
-          <button 
+          <motion.button 
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={scrollToAbout}
-            className="rounded-full bg-primary px-8 py-3 font-medium text-primary-foreground transition-transform hover:scale-105"
+            className="cursor-pointer rounded-full bg-primary px-8 py-3.5 font-medium text-primary-foreground transition-all hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/25"
           >
             Explore My Work
-          </button>
+          </motion.button>
         </motion.div>
       </div>
 

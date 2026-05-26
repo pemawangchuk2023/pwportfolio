@@ -20,7 +20,10 @@ export function CustomCursor() {
     // Only run on non-touch devices
     if (window.matchMedia("(pointer: coarse)").matches) return;
     
-    setIsHidden(false);
+    // Delay slightly to avoid state update during effect warning
+    const initTimeout = setTimeout(() => {
+      setIsHidden(false);
+    }, 100);
 
     const moveCursor = (e: MouseEvent) => {
       cursorX.set(e.clientX);
@@ -70,6 +73,7 @@ export function CustomCursor() {
     observer.observe(document.body, { childList: true, subtree: true });
 
     return () => {
+      clearTimeout(initTimeout);
       window.removeEventListener("mousemove", moveCursor);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);

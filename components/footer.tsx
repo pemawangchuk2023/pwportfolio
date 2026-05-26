@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
-import { ArrowUp } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowUp, Mail, Copy, Check, ShieldCheck, Cpu, Code2, Landmark } from "lucide-react";
 import { personalInfo } from "@/lib/data";
 
 const GithubIcon = ({ size = 24, className = "" }) => (
@@ -25,71 +27,229 @@ const TwitterIcon = ({ size = 24, className = "" }) => (
 );
 
 export function Footer() {
+  const [copied, setCopied] = useState(false);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const copyEmail = () => {
+    navigator.clipboard.writeText(personalInfo.email);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="border-t border-border/40 bg-background py-12 relative overflow-hidden">
-      <div className="container mx-auto px-4 md:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex flex-col items-center md:items-start">
-            <Link href="/" className="font-heading text-xl font-bold tracking-tighter mb-2">
-              {personalInfo.name}<span className="text-primary">.</span>
-            </Link>
-            <p className="text-sm text-muted-foreground text-center md:text-left">
-              &copy; {new Date().getFullYear()} {personalInfo.fullName}. All rights reserved.
-            </p>
+    <footer className="relative border-t border-border/40 bg-background/95 py-16 md:py-24 overflow-hidden backdrop-blur-sm">
+      {/* Dynamic Animated Ambient Glow */}
+      <div className="pointer-events-none absolute -bottom-48 left-1/2 -translate-x-1/2 w-[600px] md:w-[900px] h-[300px] bg-gradient-to-t from-primary/20 via-primary/5 to-transparent blur-[120px] rounded-full animate-pulse duration-10000" />
+      <div className="pointer-events-none absolute top-0 right-10 w-72 h-72 bg-yellow-500/5 blur-[100px] rounded-full" />
+      <div className="pointer-events-none absolute bottom-20 left-10 w-64 h-64 bg-primary/5 blur-[90px] rounded-full" />
+
+      <div className="container mx-auto px-4 md:px-8 relative z-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-8 mb-16">
+          {/* Identity Block */}
+          <div className="flex flex-col space-y-5">
+            <div>
+              <Link href="/" className="font-heading text-2xl font-bold tracking-tighter">
+                {personalInfo.name}<span className="text-primary">.</span>
+              </Link>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                Designing elegant, functional digital solutions. Crafting secure smart contracts, automated workflows, and robust financial web ecosystems.
+              </p>
+            </div>
+
+            {/* Active Status Badge */}
+            <div className="inline-flex items-center gap-2 self-start rounded-full border border-primary/20 bg-primary/10 px-3.5 py-1 text-xs text-primary font-medium">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              Open to contract roles
+            </div>
+
+            {/* Premium Social Icons */}
+            <div className="flex items-center gap-4">
+              <motion.a
+                whileHover={{ scale: 1.15, y: -2 }}
+                href={personalInfo.socials.github}
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary/50 border border-border/40 text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors shadow-inner"
+                aria-label="GitHub"
+              >
+                <GithubIcon size={18} />
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.15, y: -2 }}
+                href={personalInfo.socials.linkedin}
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary/50 border border-border/40 text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors shadow-inner"
+                aria-label="LinkedIn"
+              >
+                <LinkedinIcon size={18} />
+              </motion.a>
+              <motion.a
+                whileHover={{ scale: 1.15, y: -2 }}
+                href={personalInfo.socials.twitter}
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary/50 border border-border/40 text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors shadow-inner"
+                aria-label="Twitter"
+              >
+                <TwitterIcon size={18} />
+              </motion.a>
+            </div>
           </div>
 
-          <div className="flex items-center gap-6">
-            <a
-              href={personalInfo.socials.github}
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="GitHub"
-            >
-              <GithubIcon size={20} />
-            </a>
-            <a
-              href={personalInfo.socials.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="LinkedIn"
-            >
-              <LinkedinIcon size={20} />
-            </a>
-            <a
-              href={personalInfo.socials.twitter}
-              target="_blank"
-              rel="noreferrer"
-              className="text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Twitter"
-            >
-              <TwitterIcon size={20} />
-            </a>
+          {/* Quick Links Column */}
+          <div className="flex flex-col space-y-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Sitemap Navigation
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <Link href="#about" className="text-muted-foreground hover:text-foreground transition-colors flex items-center group">
+                  <span className="h-1.5 w-0 bg-primary rounded-full transition-all group-hover:w-1.5 group-hover:mr-2"></span>
+                  About Pema
+                </Link>
+              </li>
+              <li>
+                <Link href="#tech-stack" className="text-muted-foreground hover:text-foreground transition-colors flex items-center group">
+                  <span className="h-1.5 w-0 bg-primary rounded-full transition-all group-hover:w-1.5 group-hover:mr-2"></span>
+                  Tech Stack & Tools
+                </Link>
+              </li>
+              <li>
+                <Link href="#projects" className="text-muted-foreground hover:text-foreground transition-colors flex items-center group">
+                  <span className="h-1.5 w-0 bg-primary rounded-full transition-all group-hover:w-1.5 group-hover:mr-2"></span>
+                  Selected Works
+                </Link>
+              </li>
+              <li>
+                <Link href="#contact" className="text-muted-foreground hover:text-foreground transition-colors flex items-center group">
+                  <span className="h-1.5 w-0 bg-primary rounded-full transition-all group-hover:w-1.5 group-hover:mr-2"></span>
+                  Get In Touch
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Services Column */}
+          <div className="flex flex-col space-y-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Areas of Focus
+            </h4>
+            <ul className="space-y-3.5 text-sm text-muted-foreground">
+              <li className="flex items-center gap-2.5">
+                <ShieldCheck size={16} className="text-primary/70 shrink-0" />
+                <span>Smart Contract Audits & Development</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Cpu size={16} className="text-primary/70 shrink-0" />
+                <span>Automated Reconciliation Engineering</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Code2 size={16} className="text-primary/70 shrink-0" />
+                <span>High-Performance Next.js Web Apps</span>
+              </li>
+              <li className="flex items-center gap-2.5">
+                <Landmark size={16} className="text-primary/70 shrink-0" />
+                <span>Financial & Business Workflows</span>
+              </li>
+            </ul>
+          </div>
+
+          {/* Connect Column */}
+          <div className="flex flex-col space-y-4">
+            <h4 className="text-sm font-semibold uppercase tracking-wider text-primary">
+              Let&apos;s Build Together
+            </h4>
+            <p className="text-sm text-muted-foreground">
+              Interested in collaborating on a web project or blockchain system? Drop a line anytime.
+            </p>
+            
+            {/* Interactive Copy-to-Clipboard Widget */}
+            <div className="flex flex-col space-y-2">
+              <div className="flex items-center justify-between glass rounded-xl border border-border/60 p-2.5 transition-all hover:border-primary/30">
+                <div className="flex items-center gap-2 text-sm text-foreground overflow-hidden">
+                  <Mail size={16} className="text-primary shrink-0" />
+                  <span className="truncate select-all text-xs font-mono">{personalInfo.email}</span>
+                </div>
+                <button
+                  onClick={copyEmail}
+                  className="p-2 hover:bg-secondary/80 rounded-lg text-muted-foreground hover:text-primary transition-all relative"
+                  title="Copy email to clipboard"
+                >
+                  <AnimatePresence mode="wait">
+                    {copied ? (
+                      <motion.div
+                        key="check"
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.5, opacity: 0 }}
+                      >
+                        <Check size={15} className="text-primary" />
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="copy"
+                        initial={{ scale: 0.5, opacity: 0 }}
+                        animate={{ scale: 1, opacity: 1 }}
+                        exit={{ scale: 0.5, opacity: 0 }}
+                      >
+                        <Copy size={15} />
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </button>
+              </div>
+              <AnimatePresence>
+                {copied && (
+                  <motion.span
+                    initial={{ opacity: 0, y: 5 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -5 }}
+                    className="text-[10px] text-primary font-medium pl-1 self-start"
+                  >
+                    Email copied successfully!
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Bottom Divider */}
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-border/50 to-transparent my-8"></div>
+
+        {/* Credits & Scroll back */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-6">
+          <div className="flex flex-col items-center md:items-start space-y-1">
+            <p className="text-xs text-muted-foreground text-center md:text-left">
+              &copy; {currentYear} {personalInfo.fullName}. All rights reserved.
+            </p>
+            <div className="text-[11px] text-muted-foreground/60 flex items-center justify-center md:justify-start gap-1">
+              Handcrafted with <span className="text-primary animate-pulse">♥</span> using Next.js & Tailwind CSS.
+            </div>
           </div>
 
           <div>
-            <button
+            <motion.button
+              whileHover={{ scale: 1.1, y: -4 }}
+              whileTap={{ scale: 0.95 }}
               onClick={scrollToTop}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-border/40 bg-secondary/50 text-foreground transition-all hover:bg-primary hover:text-primary-foreground hover:border-primary"
+              className="flex h-12 w-12 items-center justify-center rounded-full border border-border bg-secondary/40 text-foreground transition-all hover:bg-primary hover:text-primary-foreground hover:border-primary shadow-lg hover:shadow-primary/20"
               aria-label="Scroll to top"
             >
-              <ArrowUp size={18} />
-            </button>
+              <ArrowUp size={20} />
+            </motion.button>
           </div>
         </div>
-        
-        <div className="mt-12 text-center text-xs text-muted-foreground/60 flex items-center justify-center gap-1">
-          Designed & Built with <span className="text-primary mx-1">♥</span> using Next.js & Tailwind
-        </div>
       </div>
-      
-      {/* Subtle background glow */}
-      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 w-3/4 h-32 bg-primary/10 blur-[100px] rounded-full" />
     </footer>
   );
 }
